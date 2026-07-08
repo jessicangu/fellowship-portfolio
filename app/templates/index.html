@@ -2,39 +2,408 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta property="og:title" content="Personal Portfolio">
-    <meta property="og:description" content="My Personal Portfolio">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Jessica Nguyen Portfolio">
+    <meta property="og:description" content="A folder-inspired creative portfolio">
     <meta property="og:url" content="{{ url }}">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.simpleicons.org">
+    <link rel="dns-prefetch" href="https://api.iconify.design">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Bodoni:wght@400&display=swap" rel="stylesheet">
 
-    <link lang='sass' rel="stylesheet" href="./static/styles/main.css">
-    <link rel='icon' href='./static/img/favicon.ico' type='image/x-icon' />
+    <link rel="stylesheet" href="./static/styles/main.css">
     <title>{{ title }}</title>
 </head>
 
 <body>
-    <header class="nav-bar">
-        <div class="nav-content">
-            <a href="/">
-                <div class="nav-logo">
-                    <img src="./static/img/logo.svg" />
-                </div>
-            </a>
-        </div>
-    </header>
+    <div class="paper-texture" aria-hidden="true"></div>
 
-    <div class="profile">
-        <div id="profile-picture" class="profile-picture">
-            <img src="./static/img/logo.jpg">
+    <main class="archive">
+        <header class="hero" aria-label="Portfolio introduction">
+            <h1 class="hero__name" aria-label="Hi, I'm Jessica!">
+                <span class="hero__typing" aria-hidden="true"></span><span class="hero__cursor" aria-hidden="true"></span>
+            </h1>
+            <div class="hero__desc">
+                <svg class="hero__wave" viewBox="0 0 120 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M0 4C10 0 20 8 30 4C40 0 50 8 60 4C70 0 80 8 90 4C100 0 110 8 120 4" stroke="currentColor" stroke-width="1"/>
+                </svg>
+                <p class="hero__tagline">
+                    <span class="hero__tagline-line">recent CS graduate</span>
+                    <span class="hero__tagline-line hero__tagline-line--focus">aspiring builder + designer</span>
+                </p>
+            </div>
+        </header>
+
+        <div class="folder-stack" aria-label="Portfolio folders">
+        <div class="folder-section" data-section="about">
+            <div class="folder-head folder-head--center">
+                <button class="folder-tab folder-tab--about" type="button" data-section="about" aria-expanded="false" aria-controls="about-panel">
+                    ( about )
+                </button>
+            </div>
+            <section class="panel panel--about" id="about-panel" data-panel="about" aria-hidden="true">
+                <div class="panel-collapse">
+                <div class="panel-inner about-layout">
+                    <p class="about-intro">
+                        i&apos;m a recent cs graduate from the university of houston with experience in
+                        full-stack development, machine learning, and site reliability/production engineering. i'm passionate about building technology that's both technically sound and thoughtfully designed.
+                    </p>
+
+                    <section class="photos-block" aria-labelledby="photos-heading">
+                        <h2 id="photos-heading">Photos</h2>
+                        <div class="photos-grid">
+                            <figure class="photo-card">
+                                <img src="./static/img/portpic-1.jpg" alt="jessica hiking by a mountain lake" loading="lazy" decoding="async">
+                                <figcaption class="photo-card__caption">st. mary's glacier, colorado!</figcaption>
+                            </figure>
+                            <figure class="photo-card">
+                                <img src="./static/img/portpic-2.jpg" alt="navi team on stage at a tech event" loading="lazy" decoding="async">
+                                <figcaption class="photo-card__caption">winning my first hackathon with my awesome team</figcaption>
+                            </figure>
+                            <figure class="photo-card photo-card--crop-top">
+                                <img src="./static/img/portpic-3.jpg" alt="presenting research poster at gmis conference" loading="lazy" decoding="async">
+                                <figcaption class="photo-card__caption">presenting my neural machine translation research at the great minds in stem conference 2025 in san diego.</figcaption>
+                            </figure>
+                            <figure class="photo-card">
+                                <img src="./static/img/portpic-4.jpg" alt="code ninjas students holding certificates" loading="lazy" decoding="async">
+                                <figcaption class="photo-card__caption">celebrating with my ninjas after our last day of our club!</figcaption>
+                            </figure>
+                        </div>
+                    </section>
+
+                    <div class="resume-grid">
+                        <section class="about-sidebar">
+                            <h2>Education</h2>
+                            <article class="resume-item">
+                                <div>
+                                    <h3>university of houston</h3>
+                                    <p>bachelor of science in computer science</p>
+                                    <p>minor in mathematics</p>
+                                </div>
+                                <span>jan. 2023 &mdash; may 2026</span>
+                            </article>
+
+                            <h2 class="about-sidebar__skills-heading">Skills</h2>
+                            <div class="skills-stack">
+                                <div class="skill-group">
+                                    <h3>Languages</h3>
+                                    <div class="chips">
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/python/252627" alt="" width="16" height="16" loading="lazy" decoding="async">python</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/cplusplus/252627" alt="" width="16" height="16" loading="lazy" decoding="async">c++</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/javascript/252627" alt="" width="16" height="16" loading="lazy" decoding="async">javascript</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/typescript/252627" alt="" width="16" height="16" loading="lazy" decoding="async">typescript</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/postgresql/252627" alt="" width="16" height="16" loading="lazy" decoding="async">sql</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/html5/252627" alt="" width="16" height="16" loading="lazy" decoding="async"><img class="chip__icon" src="https://cdn.simpleicons.org/css/252627" alt="" width="16" height="16" loading="lazy" decoding="async">html / css</span>
+                                    </div>
+                                </div>
+                                <div class="skill-group">
+                                    <h3>Frameworks</h3>
+                                    <div class="chips">
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/react/252627" alt="" width="16" height="16" loading="lazy" decoding="async">react.js</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/nextdotjs/252627" alt="" width="16" height="16" loading="lazy" decoding="async">next.js</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/express/252627" alt="" width="16" height="16" loading="lazy" decoding="async">express.js</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/flask/252627" alt="" width="16" height="16" loading="lazy" decoding="async">flask</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/tailwindcss/252627" alt="" width="16" height="16" loading="lazy" decoding="async">tailwind css</span>
+                                    </div>
+                                </div>
+                                <div class="skill-group">
+                                    <h3>Databases</h3>
+                                    <div class="chips">
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/mysql/252627" alt="" width="16" height="16" loading="lazy" decoding="async">mysql</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/postgresql/252627" alt="" width="16" height="16" loading="lazy" decoding="async">postgresql</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/mongodb/252627" alt="" width="16" height="16" loading="lazy" decoding="async">mongodb</span>
+                                    </div>
+                                </div>
+                                <div class="skill-group">
+                                    <h3>Tools &amp; Platforms</h3>
+                                    <div class="chips">
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/git/252627" alt="" width="16" height="16" loading="lazy" decoding="async">git</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/vite/252627" alt="" width="16" height="16" loading="lazy" decoding="async">vite</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/pytorch/252627" alt="" width="16" height="16" loading="lazy" decoding="async">pytorch</span>
+                                        <span class="chip"><img class="chip__icon" src="https://cdn.simpleicons.org/googlecolab/252627" alt="" width="16" height="16" loading="lazy" decoding="async">google colab</span>
+                                        <span class="chip"><img class="chip__icon" src="https://api.iconify.design/simple-icons/amazonaws.svg?color=%23252627" alt="" width="16" height="16" loading="lazy" decoding="async">aws</span>
+                                        <span class="chip"><img class="chip__icon" src="https://api.iconify.design/simple-icons/microsoftazure.svg?color=%23252627" alt="" width="16" height="16" loading="lazy" decoding="async">azure</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="experience-section">
+                            <h2>Experience</h2>
+                            <div class="experience-list">
+                                <article class="experience-card">
+                                    <div class="experience-card__icon" aria-hidden="true">
+                                        <img src="https://cdn.simpleicons.org/meta/252627" alt="" width="22" height="22" loading="lazy" decoding="async">
+                                    </div>
+                                    <div class="experience-card__content">
+                                        <div class="experience-card__header">
+                                            <h3>production engineering fellow @ meta</h3>
+                                            <span>june 2026 &mdash; present</span>
+                                        </div>
+                                        <p>learning site reliability + production engineering through the mlh fellowship under meta&apos;s production engineers, focused on reliable, scalable infrastructure.</p>
+                                    </div>
+                                </article>
+                                <article class="experience-card">
+                                    <div class="experience-card__icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </div>
+                                    <div class="experience-card__content">
+                                        <div class="experience-card__header">
+                                            <h3>computer vision research intern @ university of north texas</h3>
+                                            <span>jan. 2026 &mdash; may 2026</span>
+                                        </div>
+                                        <p>conducting research on computer vision&ndash;based road debris detection using deep learning models to improve roadway safety. developing and evaluating image-based object detection systems to identify hazardous debris in diverse driving environments.</p>
+                                    </div>
+                                </article>
+                                <article class="experience-card">
+                                    <div class="experience-card__icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    </div>
+                                    <div class="experience-card__content">
+                                        <div class="experience-card__header">
+                                            <h3>student director @ nsm career center</h3>
+                                            <span>sep. 2025 &mdash; may 2026</span>
+                                        </div>
+                                        <p>connecting students with industry leaders through career fairs, internship bootcamps, and employer partnerships. i organize initiatives that strengthen employer relations, support student career development, and build pipelines for future stem talent.</p>
+                                    </div>
+                                </article>
+                                <article class="experience-card">
+                                    <div class="experience-card__icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                                    </div>
+                                    <div class="experience-card__content">
+                                        <div class="experience-card__header">
+                                            <h3>coding instructor @ code ninjas</h3>
+                                            <span>dec. 2024 &mdash; may 2026</span>
+                                        </div>
+                                        <p>teaching students ages 6&ndash;14 the fundamentals of programming through hands-on projects in javascript, block coding, and game development. i lead interactive camps on minecraft and roblox modding, robotics, and creative engineering, helping students build problem-solving and critical thinking skills in a fun and supportive environment.</p>
+                                    </div>
+                                </article>
+                                <article class="experience-card">
+                                    <div class="experience-card__icon" aria-hidden="true">
+                                        <img src="https://cdn.simpleicons.org/pytorch/252627" alt="" width="22" height="22" loading="lazy" decoding="async">
+                                    </div>
+                                    <div class="experience-card__content">
+                                        <div class="experience-card__header">
+                                            <h3>machine learning research intern @ california state university, dominguez hills</h3>
+                                            <span>jan. 2025 &mdash; june 2025</span>
+                                        </div>
+                                        <p>built a vietnamese&ndash;english medical translation model using opennmt-py and mbart50. optimized performance with advanced preprocessing and collaborated with researchers to enhance translation quality for low-resource clinical data.</p>
+                                        <p class="experience-card__note">invited to present poster at great minds in stem conference 2025</p>
+                                    </div>
+                                </article>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div>
+            </section>
         </div>
-        <h1>{{ title }}</h1>
-    </div>
+
+        <div class="folder-section" data-section="projects">
+            <div class="folder-head folder-head--right">
+                <button class="folder-tab folder-tab--projects" type="button" data-section="projects" aria-expanded="false" aria-controls="projects-panel">
+                    ( projects )
+                </button>
+            </div>
+            <section class="panel panel--projects" id="projects-panel" data-panel="projects" aria-hidden="true">
+                <div class="panel-collapse">
+                <div class="panel-inner projects-layout">
+                    <div class="projects-switcher" role="tablist" aria-label="Project categories">
+                        <button type="button" role="tab" class="projects-switcher__btn is-active" data-project-category="technical" aria-selected="true" aria-controls="projects-technical">
+                            technical
+                        </button>
+                        <button type="button" role="tab" class="projects-switcher__btn" data-project-category="creative" aria-selected="false" aria-controls="projects-creative">
+                            creative
+                        </button>
+                    </div>
+
+                    <div class="project-grid" id="projects-technical" role="tabpanel" data-project-panel="technical" aria-label="Technical projects">
+                        <article class="project-card">
+                            <img loading="lazy" decoding="async" src="./static/img/navi-port.jpg" alt="Navi AI assistant interface">
+                            <div class="project-index">001</div>
+                            <div class="project-meta">
+                                <span>AI / Full Stack</span>
+                                <span>2025</span>
+                            </div>
+                            <h2>Navi</h2>
+                            <p>Built at the 2025 CodeRed x MLH hackathon — an AI-powered personal assistant that brings email, calendars, maps, and voice into one conversational interface. Built on our modular MCP framework with Google Gemini and ElevenLabs for seamless, low-latency integrations.</p>
+                            <div class="project-card__links">
+                                <a href="https://devpost.com/software/navi-ri7lkb" target="_blank" rel="noreferrer" aria-label="View Navi on Devpost">Devpost</a>
+                                <a href="https://github.com/armaanamatya/CodeRed-Astra" target="_blank" rel="noreferrer" aria-label="View Navi on GitHub">GitHub</a>
+                            </div>
+                        </article>
+
+                        <article class="project-card">
+                            <img loading="lazy" decoding="async" src="./static/img/getting-full-studios.png" alt="Getting Full Studios VR burger restaurant scene">
+                            <div class="project-index">002</div>
+                            <div class="project-meta">
+                                <span>VR / Unity</span>
+                                <span>2026</span>
+                            </div>
+                            <h2>Getting Full Studios</h2>
+                            <p>An immersive VR burger restaurant in Unity featuring interactive gameplay, VR UI, and scene management. Developed with C#, the XR Interaction Toolkit, and Blender for the Meta Quest.</p>
+                            <a href="https://github.com/Sterling-Gore/VR-AR" target="_blank" rel="noreferrer" aria-label="View Getting Full Studios on GitHub">GitHub</a>
+                        </article>
+
+                        <article class="project-card">
+                            <img loading="lazy" decoding="async" src="./static/img/impactMatch.png" alt="Impact Match volunteer platform interface">
+                            <div class="project-index">003</div>
+                            <div class="project-meta">
+                                <span>Full Stack</span>
+                                <span>2025</span>
+                            </div>
+                            <h2>Impact Match</h2>
+                            <p>Built a full-stack volunteer platform that matches users to opportunities based on their skills, availability, and location. Includes encrypted authentication, automated matching, persistent user profiles, reporting tools with PDF/CSV exports, and a PostgreSQL database hosted on AWS.</p>
+                            <a href="https://github.com/aadibaahmed/Volunteering_WebApp" target="_blank" rel="noreferrer" aria-label="View Impact Match on GitHub">GitHub</a>
+                        </article>
+
+                        <article class="project-card">
+                            <img loading="lazy" decoding="async" src="./static/img/coogZoo.png" alt="CoogZoo zoo management system dashboard">
+                            <div class="project-index">004</div>
+                            <div class="project-meta">
+                                <span>Full Stack</span>
+                                <span>2024</span>
+                            </div>
+                            <h2>CoogZoo</h2>
+                            <p>Built a full-stack zoo management system with a React frontend and AWS-hosted MySQL backend. Designed a normalized database with auditing triggers, transactions, and soft deletion to manage real-time zoo operations.</p>
+                            <a href="https://github.com/khangchung15/finalcoogzoo" target="_blank" rel="noreferrer" aria-label="View CoogZoo on GitHub">GitHub</a>
+                        </article>
+
+                        <article class="project-card">
+                            <img loading="lazy" decoding="async" src="./static/img/nmtPoster.png" alt="Towards Inclusive Healthcare research poster">
+                            <div class="project-index">005</div>
+                            <div class="project-meta">
+                                <span>Machine Learning / NLP </span>
+                                <span>2025</span>
+                            </div>
+                            <h2>Towards Inclusive Healthcare</h2>
+                            <p>Developed a Vietnamese&ndash;English neural machine translation system using the mBART transformer model. Built custom preprocessing and evaluation pipelines, measuring translation quality with BLEU, METEOR, and BERTScore.</p>
+                            <a href="./static/img/nmtPoster.png" target="_blank" rel="noreferrer" aria-label="View Towards Inclusive Healthcare poster">Poster</a>
+                        </article>
+                    </div>
+
+                    <div class="projects-category-panel is-hidden" id="projects-creative" role="tabpanel" data-project-panel="creative" aria-label="Creative projects" hidden>
+                        <p class="projects-creative-intro">
+                            whenever i have a little creative inspiration and some free time, you&apos;ll usually find me editing videos in adobe after effects. i occasionally share my work on
+                            <a href="https://www.tiktok.com/@dreadfulclementines" target="_blank" rel="noreferrer">tiktok</a>
+                            too; check it out!
+                        </p>
+
+                        <div class="project-grid">
+                        <article class="project-card">
+                            <img loading="lazy" decoding="async" src="./static/img/bitter_sweet_symphony.jpg" alt="Bittersweet Symphony video edit thumbnail">
+                            <div class="project-index">001</div>
+                            <div class="project-meta">
+                                <span>After Effects</span>
+                            </div>
+                            <h2>Bittersweet Symphony</h2>
+                            <p>coming of age</p>
+                            <div class="project-card__links">
+                                <a href="https://www.youtube.com/watch?v=K7sJ_ELeX3g" target="_blank" rel="noreferrer" aria-label="Watch Bittersweet Symphony on YouTube">YouTube</a>
+                                <a href="https://www.tiktok.com/@dreadfulclementines/video/7572269776739814669" target="_blank" rel="noreferrer" aria-label="Watch Bittersweet Symphony on TikTok">TikTok</a>
+                            </div>
+                        </article>
+
+                        <article class="project-card">
+                            <img loading="lazy" decoding="async" src="./static/img/pictures_of_you.jpg" alt="Pictures of You video edit thumbnail">
+                            <div class="project-index">002</div>
+                            <div class="project-meta">
+                                <span>After Effects</span>
+                            </div>
+                            <h2>Pictures of You</h2>
+                            <p>brokeback mountain + the cure</p>
+                            <div class="project-card__links">
+                                <a href="https://www.youtube.com/watch?v=igwUqHKtiJU" target="_blank" rel="noreferrer" aria-label="Watch Pictures of You on YouTube">YouTube</a>
+                                <a href="https://www.tiktok.com/@dreadfulclementines/video/7588566975433985335" target="_blank" rel="noreferrer" aria-label="Watch Pictures of You on TikTok">TikTok</a>
+                            </div>
+                        </article>
+
+                        <article class="project-card">
+                            <img loading="lazy" decoding="async" src="./static/img/eternal.jpg" alt="Somebody That I Used to Know Eternal video edit thumbnail">
+                            <div class="project-index">003</div>
+                            <div class="project-meta">
+                                <span>After Effects</span>
+                            </div>
+                            <h2>Somebody That I Used to Know (Eternal)</h2>
+                            <p>eternal sunshine and the spotless mind + elliott smith</p>
+                            <div class="project-card__links">
+                                <a href="https://www.youtube.com/watch?v=P0Rln1ANsv0" target="_blank" rel="noreferrer" aria-label="Watch Somebody That I Used to Know Eternal on YouTube">YouTube</a>
+                                <a href="https://www.tiktok.com/@dreadfulclementines/video/7509937685327334698" target="_blank" rel="noreferrer" aria-label="Watch Somebody That I Used to Know Eternal on TikTok">TikTok</a>
+                            </div>
+                        </article>
+
+                        <article class="project-card">
+                            <img loading="lazy" decoding="async" src="./static/img/say_yes.jpg" alt="Say Yes video edit thumbnail">
+                            <div class="project-index">004</div>
+                            <div class="project-meta">
+                                <span>After Effects</span>
+                            </div>
+                            <h2>Say Yes</h2>
+                            <p>the perks of being a wallflower + elliott smith</p>
+                            <div class="project-card__links">
+                                <a href="https://www.youtube.com/shorts/x8kF85E4pxI" target="_blank" rel="noreferrer" aria-label="Watch Say Yes on YouTube">YouTube</a>
+                                <a href="https://www.tiktok.com/@dreadfulclementines/video/7511736209035808046" target="_blank" rel="noreferrer" aria-label="Watch Say Yes on TikTok">TikTok</a>
+                            </div>
+                        </article>
+                        </div>
+                    </div>
+
+                    <div class="projects-footer">
+                        <span class="projects-footer__label" data-footer-for="technical">Builds &amp; Research</span>
+                        <span class="projects-footer__label is-hidden" data-footer-for="creative" hidden>Motion Edits</span>
+                        <a class="projects-footer__link" data-footer-for="technical" href="https://github.com/jessicangu" target="_blank" rel="noreferrer">All Repos</a>
+                        <a class="projects-footer__link is-hidden" data-footer-for="creative" href="https://www.tiktok.com/@dreadfulclementines" target="_blank" rel="noreferrer" hidden>View TikTok</a>
+                    </div>
+                </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="folder-section" data-section="contact">
+            <div class="folder-head folder-head--left">
+                <button class="folder-tab folder-tab--contact" type="button" data-section="contact" aria-expanded="false" aria-controls="contact-panel">
+                    ( contact )
+                </button>
+            </div>
+            <section class="panel panel--contact" id="contact-panel" data-panel="contact" aria-hidden="true">
+                <div class="panel-collapse">
+                <div class="panel-inner contact-layout">
+                    <header>
+                        <h1>feel free to connect with me!</h1>
+                        <p>i&apos;m always looking to learn from new people and collaborate. outside of work, i like to play guitar and cook/bake!</p>
+                    </header>
+
+                    <section class="contact-list" aria-labelledby="contact-heading">
+                        <h2 id="contact-heading">Find me here</h2>
+                        <a href="mailto:jessicaknguyen04@gmail.com">
+                            <span>Email</span>
+                            jessicaknguyen04@gmail.com
+                        </a>
+                        <a href="https://www.linkedin.com/in/jessicaknguyen04/" target="_blank" rel="noreferrer">
+                            <span>LinkedIn</span>
+                            linkedin.com/in/jessicaknguyen04
+                        </a>
+                        <a href="https://github.com/jessicangu" target="_blank" rel="noreferrer">
+                            <span>GitHub</span>
+                            github.com/jessicangu
+                        </a>
+                        <a href="https://x.com/jessandtech" target="_blank" rel="noreferrer">
+                            <span>X</span>
+                            @jessandtech
+                        </a>
+                    </section>
+                </div>
+                </div>
+            </section>
+        </div>
+        </div>
+    </main>
+
+    <script src="./static/scripts/portfolio.js" defer></script>
 </body>
+
 </html>
