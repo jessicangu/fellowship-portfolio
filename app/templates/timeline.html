@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }}</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/timeline.css') }}"
+    >
+</head>
+
+<body>
+    <main class="timeline-container">
+        <section class="timeline-header">
+            <a href="/" class="back-link">← back to portfolio</a>
+            <h1>timeline</h1>
+            <p>leave a message on my portfolio timeline!</p>
+        </section>
+
+        <section class="timeline-form-section">
+            <form id="timeline-form">
+                <div class="form-group">
+                    <label for="name">name</label>
+                    <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">email</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="content">message</label>
+                    <textarea
+                        id="content"
+                        name="content"
+                        rows="5"
+                        required
+                    ></textarea>
+                </div>
+
+                <button type="submit">post message</button>
+            </form>
+
+            <p id="form-message"></p>
+        </section>
+
+        <section class="timeline-posts-section">
+            <h2>recent posts</h2>
+
+            <div id="timeline-posts">
+                <p>loading timeline posts...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='scripts/timeline.js') }}"></script>
+</body>
+</html>
+
