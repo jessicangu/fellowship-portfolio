@@ -1070,6 +1070,58 @@ button {
     text-align: left;
 }
 
+.timeline-invite {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: clamp(0.5rem, 1.5vw, 1rem);
+    padding: 1.35rem 1.5rem;
+    border: 1px solid rgba(37, 38, 39, 0.16);
+    border-radius: 4px;
+    color: rgba(37, 38, 39, 0.88);
+    background: rgba(255, 255, 255, 0.14);
+    text-decoration: none;
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        transform 180ms ease,
+        color 180ms ease;
+}
+
+.timeline-invite:hover {
+    color: rgba(37, 38, 39, 1);
+    background: rgba(255, 255, 255, 0.28);
+    border-color: rgba(37, 38, 39, 0.28);
+    transform: translateY(-1px);
+}
+
+.timeline-invite:focus-visible {
+    outline: 1px solid rgba(37, 38, 39, 0.36);
+    outline-offset: 3px;
+}
+
+.timeline-invite__text {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-transform: none;
+}
+
+.timeline-invite__arrow {
+    flex-shrink: 0;
+    font-size: 1.35rem;
+    font-weight: 500;
+    transition: transform 180ms ease;
+}
+
+.timeline-invite:hover .timeline-invite__arrow {
+    transform: translateX(4px);
+}
+
 @media (max-width: 900px) {
     .hero__desc {
         align-self: center;
@@ -1167,6 +1219,17 @@ button {
         text-align: left;
         margin-inline: -0.85rem;
         padding: 0.85rem;
+    }
+
+    .timeline-invite {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.65rem;
+        padding: 1.15rem 1.2rem;
+    }
+
+    .timeline-invite__arrow {
+        align-self: flex-end;
     }
 }
 

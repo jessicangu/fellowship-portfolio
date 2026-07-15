@@ -3,71 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Jessica Nguyen Timeline">
+    <meta property="og:description" content="Leave a message on Jessica's portfolio timeline">
 
-    <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Bodoni:wght@400&display=swap" rel="stylesheet">
 
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='styles/timeline.css') }}"
     >
+    <title>{{ title }}</title>
 </head>
 
 <body>
-    <main class="timeline-container">
-        <section class="timeline-header">
+    <div class="paper-texture" aria-hidden="true"></div>
+
+    <main class="timeline-page">
+        <header class="timeline-header">
             <a href="/" class="back-link">← back to portfolio</a>
-            <h1>timeline</h1>
-            <p>leave a message on my portfolio timeline!</p>
-        </section>
-
-        <section class="timeline-form-section">
-            <form id="timeline-form">
-                <div class="form-group">
-                    <label for="name">name</label>
-                    <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="email">email</label>
-                    <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="content">message</label>
-                    <textarea
-                        id="content"
-                        name="content"
-                        rows="5"
-                        required
-                    ></textarea>
-                </div>
-
-                <button type="submit">post message</button>
-            </form>
-
-            <p id="form-message"></p>
-        </section>
-
-        <section class="timeline-posts-section">
-            <h2>recent posts</h2>
-
-            <div id="timeline-posts">
-                <p>loading timeline posts...</p>
+            <div class="timeline-header__copy">
+                <h1>timeline</h1>
+                <p>leave a message, then scroll through the notes people have left.</p>
             </div>
-        </section>
+        </header>
+
+        <div class="timeline-layout">
+            <aside class="timeline-form-section" aria-labelledby="form-heading">
+                <h2 id="form-heading" class="section-label">write a note</h2>
+                <form id="timeline-form">
+                    <div class="form-group">
+                        <label for="name">name</label>
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            required
+                            autocomplete="name"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">email</label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">message</label>
+                        <textarea
+                            id="content"
+                            name="content"
+                            rows="5"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <button type="submit">post message</button>
+                </form>
+
+                <p id="form-message" role="status" aria-live="polite"></p>
+            </aside>
+
+            <section class="timeline-rail-section" aria-labelledby="posts-heading">
+                <div class="timeline-rail-header">
+                    <h2 id="posts-heading" class="section-label">recent posts</h2>
+                    <div class="timeline-nav" aria-label="Timeline navigation">
+                        <button
+                            type="button"
+                            class="timeline-nav__btn"
+                            id="timeline-prev"
+                            aria-label="Scroll timeline left"
+                        >
+                            ←
+                        </button>
+                        <button
+                            type="button"
+                            class="timeline-nav__btn"
+                            id="timeline-next"
+                            aria-label="Scroll timeline right"
+                        >
+                            →
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="timeline-rail"
+                    id="timeline-rail"
+                    tabindex="0"
+                    role="region"
+                    aria-label="Horizontal timeline of posts. Scroll or drag to browse."
+                >
+                    <div class="timeline-track" id="timeline-posts">
+                        <p class="timeline-status">loading timeline posts...</p>
+                    </div>
+                </div>
+
+                <p class="timeline-hint">scroll, drag, or use the arrows to browse</p>
+            </section>
+        </div>
     </main>
 
     <script src="{{ url_for('static', filename='scripts/timeline.js') }}"></script>
 </body>
 </html>
-
