@@ -3,35 +3,31 @@
 set -e
 
 PROJECT_DIR="/root/fellowship-portfolio"
+COMPOSE_FILE="docker-compose.prod.yml"
+ENV_FILE=".env.docker"
 
-echo "Starting Docker portfolio redeployment..."
+echo "starting Docker portfolio redeployment..."
 
 cd "$PROJECT_DIR"
 
-echo "Fetching the latest code from GitHub..."
+echo "fetching the latest code from GitHub..."
 git fetch origin
 git reset --hard origin/main
 
-echo "Stopping legacy systemd service if it is running..."
+echo "ensuring the legacy systemd service is stopped..."
 systemctl stop myportfolio 2>/dev/null || true
 systemctl disable myportfolio 2>/dev/null || true
 
-echo "Stopping existing Docker containers..."
+echo "rebuilding and restarting Docker containers..."
 docker compose \
-  --env-file .env.docker \
-  -f docker-compose.prod.yml \
-  down
+  --env-file "$ENV_FILE" \
+  -f "$COMPOSE_FILE" \
+  up -d --build --remove-orphans
 
-echo "Rebuilding and starting Docker containers..."
+echo "checking container status..."
 docker compose \
-  --env-file .env.docker \
-  -f docker-compose.prod.yml \
-  up -d --build
-
-echo "Checking container status..."
-docker compose \
-  --env-file .env.docker \
-  -f docker-compose.prod.yml \
+  --env-file "$ENV_FILE" \
+  -f "$COMPOSE_FILE" \
   ps
 
-echo "Redeployment completed successfully."
+echo "redeployment completed successfully."
