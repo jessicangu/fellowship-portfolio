@@ -1,9 +1,20 @@
-.venv
-__pycache__
+# Python
+.venv/
+venv/
+python3-virtualenv/
+__pycache__/
 *.pyc
+.pytest_cache/
+
+# Environment variables
 .env
-python3-virtualenv
+
+# Local databases
 flask.sqlite
+
+# Node
+node_modules/
+
+# Operating system and tooling
 .DS_Store
-node_modules
-_ref_frames
+_ref_frames/

@@ -1,0 +1,16 @@
+.git
+.gitignore
+.env
+
+.venv
+venv
+python3-virtualenv
+
+__pycache__
+*.pyc
+.pytest_cache
+
+node_modules
+flask.sqlite
+.DS_Store
+_ref_frames

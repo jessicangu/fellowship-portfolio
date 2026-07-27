@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    container_name: myportfolio
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: myportfolio
+      MYSQL_PASSWORD: mypassword
+      MYSQL_DATABASE: fellowship_portfolio
+      URL: http://localhost:5000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - .:/myportfolio
+    restart: unless-stopped
+
+  mysql:
+    image: mariadb:11
+    container_name: myportfolio-mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_DATABASE: fellowship_portfolio
+      MARIADB_USER: myportfolio
+      MARIADB_PASSWORD: mypassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "healthcheck.sh",
+          "--connect",
+          "--innodb_initialized"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
