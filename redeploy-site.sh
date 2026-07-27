@@ -3,10 +3,8 @@
 set -e
 
 PROJECT_DIR="/root/fellowship-portfolio"
-VENV_DIR="$PROJECT_DIR/python3-virtualenv"
-SERVICE_NAME="myportfolio"
 
-echo "Starting portfolio redeployment..."
+echo "Starting Docker portfolio redeployment..."
 
 cd "$PROJECT_DIR"
 
@@ -14,16 +12,22 @@ echo "Fetching the latest code from GitHub..."
 git fetch origin
 git reset --hard origin/main
 
-echo "Activating the Python virtual environment..."
-source "$VENV_DIR/bin/activate"
+echo "Stopping existing Docker containers..."
+docker compose \
+  --env-file .env.docker \
+  -f docker-compose.prod.yml \
+  down
 
-echo "Installing Python dependencies..."
-python -m pip install -r requirements.txt
+echo "Rebuilding and starting Docker containers..."
+docker compose \
+  --env-file .env.docker \
+  -f docker-compose.prod.yml \
+  up -d --build
 
-echo "Restarting the portfolio systemd service..."
-systemctl restart "$SERVICE_NAME"
-
-echo "Checking service status..."
-systemctl is-active --quiet "$SERVICE_NAME"
+echo "Checking container status..."
+docker compose \
+  --env-file .env.docker \
+  -f docker-compose.prod.yml \
+  ps
 
 echo "Redeployment completed successfully."
