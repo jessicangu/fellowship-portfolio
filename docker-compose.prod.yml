@@ -1,0 +1,55 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: myportfolio
+    env_file:
+      - .env.docker
+    environment:
+      MYSQL_HOST: mysql
+      FLASK_APP: app
+      PYTHONUNBUFFERED: "1"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  mysql:
+    image: mariadb:11
+    container_name: myportfolio-mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MYSQL_DATABASE}
+      MARIADB_USER: ${MYSQL_USER}
+      MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data_prod:/var/lib/mysql
+    healthcheck:
+      test:
+        - CMD
+        - healthcheck.sh
+        - --connect
+        - --innodb_initialized
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  nginx:
+    image: jonasal/nginx-certbot
+    container_name: nginx
+    restart: unless-stopped
+    environment:
+      CERTBOT_EMAIL: jessica.nguyen0321@gmail.com
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginx_secrets:/etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
+    depends_on:
+      - app
+
+volumes:
+  mysql_data_prod:
+  nginx_secrets:
