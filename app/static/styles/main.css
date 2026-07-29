@@ -16,7 +16,7 @@
     --gutter: clamp(1.2rem, 8vw, 7.6rem);
     --folder-tab-height: 3.85rem;
     --folder-lip-height: 3.4rem;
-    --folder-stack-peek: 2.35rem;
+    --folder-stack-peek: 1.55rem;
     --folder-overlap: calc(var(--folder-lip-height) - var(--folder-stack-peek));
     --folder-tab-radius: 12px;
     --font-display: "Libre Bodoni", "Bodoni MT", "Didot", Georgia, serif;
@@ -25,10 +25,10 @@
     --paper-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
     --ease-folder-open: cubic-bezier(0.22, 1, 0.36, 1);
     --ease-folder-close: cubic-bezier(0.4, 0, 0.2, 1);
-    --duration-folder-open: 520ms;
-    --duration-folder-close: 400ms;
-    --duration-folder-large-open: 620ms;
-    --duration-folder-large-close: 480ms;
+    --duration-folder-open: 1200ms;
+    --duration-folder-close: 950ms;
+    --duration-folder-large-open: 1450ms;
+    --duration-folder-large-close: 1100ms;
 }
 
 *,
@@ -39,6 +39,7 @@
 
 html {
     min-height: 100%;
+    interpolate-size: allow-keywords;
 }
 
 body {
@@ -395,15 +396,15 @@ button {
 }
 
 .panel-collapse {
-    display: grid;
-    grid-template-rows: 0fr;
+    height: 0;
+    overflow: hidden;
     min-height: 0;
     padding: 0 var(--gutter);
-    transition: grid-template-rows var(--duration-folder-close) var(--ease-folder-close);
+    transition: height var(--duration-folder-close) var(--ease-folder-close);
 }
 
 .panel.is-open .panel-collapse {
-    grid-template-rows: 1fr;
+    height: auto;
     transition-duration: var(--duration-folder-open);
     transition-timing-function: var(--ease-folder-open);
 }
@@ -416,15 +417,6 @@ button {
 .panel--about.is-open .panel-collapse,
 .panel--projects.is-open .panel-collapse {
     transition-duration: var(--duration-folder-large-open);
-}
-
-.panel-collapse > .panel-inner {
-    min-height: 0;
-    overflow: hidden;
-}
-
-.panel.is-open .panel-collapse:not(.is-animating) > .panel-inner {
-    overflow: visible;
 }
 
 .panel::before {

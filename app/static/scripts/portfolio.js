@@ -1,8 +1,8 @@
 "use strict";
-const FOLDER_OPEN_DURATION = 520;
-const FOLDER_CLOSE_DURATION = 400;
-const LARGE_FOLDER_OPEN_DURATION = 620;
-const LARGE_FOLDER_CLOSE_DURATION = 480;
+const FOLDER_OPEN_DURATION = 1200;
+const FOLDER_CLOSE_DURATION = 950;
+const LARGE_FOLDER_OPEN_DURATION = 1450;
+const LARGE_FOLDER_CLOSE_DURATION = 1100;
 const archive = document.querySelector(".archive");
 const tabs = Array.from(document.querySelectorAll(".folder-tab"));
 const panels = Array.from(document.querySelectorAll(".panel"));
@@ -34,7 +34,7 @@ const waitForCollapseTransition = (collapse, duration) => new Promise((resolve) 
         resolve();
     };
     const onEnd = (event) => {
-        if (event.target !== collapse || event.propertyName !== "grid-template-rows") {
+        if (event.target !== collapse || event.propertyName !== "height") {
             return;
         }
         finish();
