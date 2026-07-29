@@ -1,12 +1,8 @@
 "use strict";
-const FOLDER_OPEN_DURATION = 1650;
-const FOLDER_CLOSE_DURATION = 1350;
-const SLOW_FOLDER_OPEN_DURATION = 4000;
-const SLOW_FOLDER_CLOSE_DURATION = 2600;
-const FOLDER_OPEN_EASE = "cubic-bezier(0.38, 0, 0.15, 1)";
-const FOLDER_CLOSE_EASE = "cubic-bezier(0.33, 0, 0.15, 1)";
-const SLOW_FOLDER_OPEN_EASE = "cubic-bezier(0.42, 0, 0.12, 1)";
-const SLOW_FOLDER_CLOSE_EASE = "cubic-bezier(0.33, 0, 0.1, 1)";
+const FOLDER_OPEN_DURATION = 520;
+const FOLDER_CLOSE_DURATION = 400;
+const LARGE_FOLDER_OPEN_DURATION = 620;
+const LARGE_FOLDER_CLOSE_DURATION = 480;
 const archive = document.querySelector(".archive");
 const tabs = Array.from(document.querySelectorAll(".folder-tab"));
 const panels = Array.from(document.querySelectorAll(".panel"));
@@ -17,11 +13,61 @@ let animating = false;
 const coerceSectionId = (value) => value === "about" || value === "projects" || value === "contact" ? value : undefined;
 const getPanel = (id) => panels.find((panel) => panel.dataset.panel === id);
 const getCollapse = (panel) => panel.querySelector(".panel-collapse");
-const nextFrame = () => new Promise((resolve) => {
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => resolve());
-    });
+const getPanelDuration = (panel, closing) => {
+    if (panel.dataset.panel === "about" || panel.dataset.panel === "projects") {
+        return closing ? LARGE_FOLDER_CLOSE_DURATION : LARGE_FOLDER_OPEN_DURATION;
+    }
+    return closing ? FOLDER_CLOSE_DURATION : FOLDER_OPEN_DURATION;
+};
+const waitForCollapseTransition = (collapse, duration) => new Promise((resolve) => {
+    if (prefersReducedMotion) {
+        resolve();
+        return;
+    }
+    let settled = false;
+    const finish = () => {
+        if (settled) {
+            return;
+        }
+        settled = true;
+        collapse.removeEventListener("transitionend", onEnd);
+        resolve();
+    };
+    const onEnd = (event) => {
+        if (event.target !== collapse || event.propertyName !== "grid-template-rows") {
+            return;
+        }
+        finish();
+    };
+    collapse.addEventListener("transitionend", onEnd);
+    window.setTimeout(finish, duration + 80);
 });
+const closePanel = async (panel) => {
+    const collapse = getCollapse(panel);
+    if (!collapse || !panel.classList.contains("is-open")) {
+        return;
+    }
+    collapse.classList.add("is-animating");
+    panel.classList.remove("is-open");
+    panel.setAttribute("aria-hidden", "true");
+    await waitForCollapseTransition(collapse, getPanelDuration(panel, true));
+    collapse.classList.remove("is-animating");
+};
+const openPanel = async (panel) => {
+    const collapse = getCollapse(panel);
+    if (!collapse) {
+        return;
+    }
+    collapse.classList.add("is-animating");
+    panel.classList.add("is-open");
+    panel.setAttribute("aria-hidden", "false");
+    await waitForCollapseTransition(collapse, getPanelDuration(panel, false));
+    if (!panel.classList.contains("is-open")) {
+        collapse.classList.remove("is-animating");
+        return;
+    }
+    collapse.classList.remove("is-animating");
+};
 const syncUiState = (id) => {
     archive?.setAttribute("data-open-section", id ?? "");
     for (const section of folderSections) {
@@ -32,93 +78,6 @@ const syncUiState = (id) => {
         tab.setAttribute("aria-expanded", String(isOpen));
         tab.tabIndex = id ? (isOpen ? 0 : -1) : 0;
     }
-};
-const getPanelTiming = (panel, closing) => {
-    if (panel.dataset.panel === "about" || panel.dataset.panel === "projects") {
-        return {
-            duration: closing ? SLOW_FOLDER_CLOSE_DURATION : SLOW_FOLDER_OPEN_DURATION,
-            ease: closing ? SLOW_FOLDER_CLOSE_EASE : SLOW_FOLDER_OPEN_EASE,
-        };
-    }
-    return {
-        duration: closing ? FOLDER_CLOSE_DURATION : FOLDER_OPEN_DURATION,
-        ease: closing ? FOLDER_CLOSE_EASE : FOLDER_OPEN_EASE,
-    };
-};
-const prepareCollapse = (collapse, panel, closing = false) => {
-    const { duration, ease } = getPanelTiming(panel, closing);
-    collapse.classList.add("is-animating");
-    collapse.style.overflow = "hidden";
-    if (prefersReducedMotion) {
-        collapse.style.transition = "none";
-        return;
-    }
-    collapse.style.transition = `height ${duration}ms ${ease}`;
-};
-const finishCollapse = (collapse) => {
-    collapse.classList.remove("is-animating");
-};
-const waitForHeightTransition = (collapse, duration) => new Promise((resolve) => {
-    if (prefersReducedMotion) {
-        resolve();
-        return;
-    }
-    const onEnd = (event) => {
-        if (event.target !== collapse || event.propertyName !== "height") {
-            return;
-        }
-        collapse.removeEventListener("transitionend", onEnd);
-        resolve();
-    };
-    collapse.addEventListener("transitionend", onEnd);
-    window.setTimeout(resolve, duration + 120);
-});
-const measurePanelContentHeight = (collapse) => {
-    const previousHeight = collapse.style.height;
-    const previousOverflow = collapse.style.overflow;
-    collapse.style.height = "auto";
-    collapse.style.overflow = "hidden";
-    const measured = collapse.scrollHeight;
-    collapse.style.height = previousHeight;
-    collapse.style.overflow = previousOverflow;
-    return measured;
-};
-const closePanel = async (panel) => {
-    const collapse = getCollapse(panel);
-    if (!collapse || !panel.classList.contains("is-open")) {
-        return;
-    }
-    prepareCollapse(collapse, panel, true);
-    const startHeight = collapse.scrollHeight;
-    collapse.style.height = `${startHeight}px`;
-    await nextFrame();
-    panel.classList.remove("is-open");
-    panel.setAttribute("aria-hidden", "true");
-    collapse.style.height = "0px";
-    await waitForHeightTransition(collapse, getPanelTiming(panel, true).duration);
-    finishCollapse(collapse);
-};
-const openPanel = async (panel) => {
-    const collapse = getCollapse(panel);
-    if (!collapse) {
-        return;
-    }
-    panel.classList.add("is-open");
-    panel.setAttribute("aria-hidden", "false");
-    const targetHeight = measurePanelContentHeight(collapse);
-    const { duration: openDuration } = getPanelTiming(panel, false);
-    prepareCollapse(collapse, panel, false);
-    collapse.style.height = "0px";
-    await nextFrame();
-    collapse.style.height = `${targetHeight}px`;
-    await waitForHeightTransition(collapse, openDuration);
-    if (!panel.classList.contains("is-open")) {
-        finishCollapse(collapse);
-        return;
-    }
-    collapse.style.height = "auto";
-    collapse.style.overflow = "";
-    finishCollapse(collapse);
 };
 const setOpenSection = async (id) => {
     if (animating) {
@@ -190,34 +149,7 @@ const projectSwitcher = document.querySelector(".projects-switcher");
 const projectCategoryButtons = Array.from(document.querySelectorAll("[data-project-category]"));
 const projectCategoryPanels = Array.from(document.querySelectorAll("[data-project-panel]"));
 const projectFooterLabels = Array.from(document.querySelectorAll("[data-footer-for]"));
-const projectsPanel = getPanel("projects");
 const coerceProjectCategory = (value) => value === "technical" || value === "creative" ? value : undefined;
-const refreshProjectsPanelHeight = async () => {
-    if (!projectsPanel?.classList.contains("is-open")) {
-        return;
-    }
-    const collapse = getCollapse(projectsPanel);
-    if (!collapse) {
-        return;
-    }
-    const startHeight = collapse.scrollHeight;
-    const targetHeight = measurePanelContentHeight(collapse);
-    if (startHeight === targetHeight) {
-        return;
-    }
-    prepareCollapse(collapse, projectsPanel, false);
-    collapse.style.height = `${startHeight}px`;
-    await nextFrame();
-    collapse.style.height = `${targetHeight}px`;
-    await waitForHeightTransition(collapse, getPanelTiming(projectsPanel, false).duration);
-    if (!projectsPanel.classList.contains("is-open")) {
-        finishCollapse(collapse);
-        return;
-    }
-    collapse.style.height = "auto";
-    collapse.style.overflow = "";
-    finishCollapse(collapse);
-};
 const setProjectCategory = (category) => {
     for (const button of projectCategoryButtons) {
         const isActive = button.dataset.projectCategory === category;
@@ -235,7 +167,6 @@ const setProjectCategory = (category) => {
         label.classList.toggle("is-hidden", !show);
         label.hidden = !show;
     }
-    void refreshProjectsPanelHeight();
 };
 projectSwitcher?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-project-category]");
