@@ -1,4 +1,4 @@
-name: Deploy
+name: Test and Deploy
 
 on:
   push:
@@ -7,14 +7,39 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    env:
+      TESTING: "true"
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Setup Python Virtual Environment
+        run: python -m venv venv
+
+      - name: Install Dependencies
+        run: venv/bin/pip install -r requirements.txt
+
+      - name: Run Tests
+        run: ./run_test.sh
+
   deploy:
     name: Deploy to VPS
     runs-on: ubuntu-latest
+    needs: test
 
     steps:
       - name: Configure SSH
         run: |
-          mkdir -p ~/.ssh/
+          mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy-key.pem
           chmod 600 ~/.ssh/deploy-key.pem
 
@@ -30,5 +55,45 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_IP: ${{ secrets.SSH_IP }}
 
-      - name: Deploy site
-        run: ssh my-vps "cd '${{ secrets.PROJECT_ROOT }}' && ./redeploy-site.sh"
+      - name: Deploy Site
+        run: |
+          ssh my-vps \
+            "cd '${{ secrets.PROJECT_ROOT }}' && ./redeploy-site.sh"
+
+      - name: Print Container Status
+        run: |
+          ssh my-vps \
+            "cd '${{ secrets.PROJECT_ROOT }}' && docker compose --env-file .env.docker -f docker-compose.prod.yml ps"
+
+  notify-success:
+    name: Send Deployment Success Notification
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Notify Discord of Successful Deployment
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl --fail-with-body \
+            -H "Content-Type: application/json" \
+            -d "{\"content\":\"🚀 Deployment Successful! Repository: ${{ github.repository }} | Commit: ${{ github.sha }}\"}" \
+            "$DISCORD_WEBHOOK"
+
+  notify-failure:
+    name: Send Deployment Failure Notification
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - deploy
+    if: ${{ always() && (needs.test.result == 'failure' || needs.deploy.result == 'failure') }}
+
+    steps:
+      - name: Notify Discord of Failed Deployment
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl --fail-with-body \
+            -H "Content-Type: application/json" \
+            -d "{\"content\":\"ERROR: Deployment Failed! Repository: ${{ github.repository }} | Commit: ${{ github.sha }} | View workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+            "$DISCORD_WEBHOOK"
